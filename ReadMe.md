@@ -1,12 +1,14 @@
 # node.js:
 
+https://www.youtube.com/watch?v=TlB_eWDSMt4&ab_channel=ProgrammingwithMosh
+
     asynchronous - non-blocking
 
     single thread app
 
     not good for cpu-intensive apps
 
-    good for data heavy and real time apps
+    good for data intensive and real time apps
 
 ## Install node
 
