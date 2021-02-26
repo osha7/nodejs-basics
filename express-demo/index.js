@@ -1,3 +1,4 @@
+const Joi = require('joi');  // returns a class // validate input
 const express = require('express');
 const app = express(); //represents our application
 
@@ -37,7 +38,7 @@ app.get('/api/courses', (req, res) => {
 app.get('/api/courses/:id', (req, res) => {
     const course = courses.find(c => c.id === parseInt(req.params.id))
     if (!course) res.status(404).send('The course with the given ID was not found.') // inspect page, network, command r ===> should show you the 404 (not found)
-    res.send(course)
+    res.send(course);
 });
 
 // // essential route params
@@ -47,14 +48,31 @@ app.get('/api/courses/:id', (req, res) => {
 
 // // optional params
 app.get('/api/posts/:year/:month', (req, res) => {
-    res.send(req.query)
-})
+    res.send(req.query);
+});
 
 app.post('/api/courses', (req, res) => {
-    if (!req.body.name || req.body.name.length < 3) {
-        // 400 Bad Request
-        res.status(400).send('Name is required and should be min 3 characters')
-        return;
+
+    // Joi class: 
+    // define schema
+    // shape of our object: type of properties (job of schema)
+    const schema = {
+        name: Joi.string().min(3).required()
+    }
+
+    const result = Joi.validate(req.body, schema);
+    // console.log(result);
+
+    // if (!req.body.name || req.body.name.length < 3) {
+    //     // 400 Bad Request
+    //     res.status(400).send('Name is required and should be min 3 characters')
+    //     return;
+    // }
+
+    //  replace above with Joi:
+
+    if (result.error) {
+        res.status(400).send(result.error.details[0].message);
     }
 
     const course = {
@@ -68,7 +86,7 @@ app.post('/api/courses', (req, res) => {
 
 //environment variable: 
 //PORT
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 3000;
 
 // exporting a PORT:
 // in terminal run:
