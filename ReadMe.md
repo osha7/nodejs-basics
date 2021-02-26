@@ -1,3 +1,7 @@
+# To run the server:
+
+    node app.js
+
 # node.js:
 
 https://www.youtube.com/watch?v=TlB_eWDSMt4&ab_channel=ProgrammingwithMosh
