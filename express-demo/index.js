@@ -37,7 +37,10 @@ app.get('/api/courses', (req, res) => {
 
 app.get('/api/courses/:id', (req, res) => {
     const course = courses.find(c => c.id === parseInt(req.params.id))
-    if (!course) res.status(404).send('The course with the given ID was not found.') // inspect page, network, command r ===> should show you the 404 (not found)
+    if (!course) {
+        res.status(404).send('The course with the given ID was not found.'); // inspect page, network, command r ===> should show you the 404 (not found)
+        return;
+    }
     res.send(course);
 });
 
@@ -80,7 +83,7 @@ app.post('/api/courses', (req, res) => {
     if (error) {
         res.status(400).send(error.details[0].message);
         return;
-    }
+    };
 
     const course = {
         id: courses.length + 1,
@@ -94,28 +97,51 @@ app.put('/api/courses/:id', (req, res) => {
     //look up course
     //if doesn't exist return 404 - not found
 
-    const course = courses.find(c => c.id === parseInt(req.params.id))
-    if (!course) res.status(404).send('The course with the given ID was not found.') // inspect page, network, command r ===> should show you the 404 (not found)
+    const course = courses.find(c => c.id === parseInt(req.params.id));
+    if (!course) {
+        res.status(404).send('The course with the given ID was not found.'); // inspect page, network, command r ===> should show you the 404 (not found)
+        return;
+    };
 
     // Validate
     // if invalid: return 400 - bad request
 
     // const result = validateCourse(req.body)
-    const { error } = validateCourse(req.body) // result.error
+    const { error } = validateCourse(req.body); // result.error
 
     if (error) {
         res.status(400).send(error.details[0].message);
         return;
-    }
+    };
 
     //Update Course
-    course.name = req.body.name
+    course.name = req.body.name;
 
     //Return updated course to client
     res.send(course);
 
 
-})
+});
+
+app.delete('/api/courses/:id', (req, res) => {
+
+    //look up course
+    //if doesn't exist return 404 - not found
+
+    const course = courses.find(c => c.id === parseInt(req.params.id));
+    if (!course) {
+        res.status(404).send('The course with the given ID was not found.'); // inspect page, network, command r ===> should show you the 404 (not found)
+        return;
+    };
+
+    // Delete
+    const index = courses.indexOf(course);
+    courses.splice(index, 1);
+
+    // Return deleted course
+    res.send(course);
+
+});
 
 function validateCourse(course) {
     const schema = {
@@ -123,8 +149,8 @@ function validateCourse(course) {
     }
 
     return Joi.validate(course, schema);
-  
-}
+    
+};
 
 
 //environment variable: 
