@@ -56,11 +56,11 @@ app.post('/api/courses', (req, res) => {
     // Joi class: 
     // define schema
     // shape of our object: type of properties (job of schema)
-    const schema = {
-        name: Joi.string().min(3).required()
-    }
+    // const schema = {
+    //     name: Joi.string().min(3).required()
+    // }
 
-    const result = Joi.validate(req.body, schema);
+    // const result = Joi.validate(req.body, schema);
     // console.log(result);
 
     // if (!req.body.name || req.body.name.length < 3) {
@@ -71,8 +71,15 @@ app.post('/api/courses', (req, res) => {
 
     //  replace above with Joi:
 
-    if (result.error) {
-        res.status(400).send(result.error.details[0].message);
+    // if (result.error) {
+    //     res.status(400).send(result.error.details[0].message);
+    // }
+
+    const { error } = validateCourse(req.body); // result.error
+
+    if (error) {
+        res.status(400).send(error.details[0].message);
+        return;
     }
 
     const course = {
@@ -82,6 +89,42 @@ app.post('/api/courses', (req, res) => {
     courses.push(course);
     res.send(course);
 });
+
+app.put('/api/courses/:id', (req, res) => {
+    //look up course
+    //if doesn't exist return 404 - not found
+
+    const course = courses.find(c => c.id === parseInt(req.params.id))
+    if (!course) res.status(404).send('The course with the given ID was not found.') // inspect page, network, command r ===> should show you the 404 (not found)
+
+    // Validate
+    // if invalid: return 400 - bad request
+
+    // const result = validateCourse(req.body)
+    const { error } = validateCourse(req.body) // result.error
+
+    if (error) {
+        res.status(400).send(error.details[0].message);
+        return;
+    }
+
+    //Update Course
+    course.name = req.body.name
+
+    //Return updated course to client
+    res.send(course);
+
+
+})
+
+function validateCourse(course) {
+    const schema = {
+        name: Joi.string().min(3).required()
+    }
+
+    return Joi.validate(course, schema);
+  
+}
 
 
 //environment variable: 

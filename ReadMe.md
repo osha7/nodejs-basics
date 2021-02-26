@@ -24,6 +24,8 @@ https://www.youtube.com/watch?v=TlB_eWDSMt4&ab_channel=ProgrammingwithMosh
     ---install stable version (not newest)
     -go through installer entire process
 
+    documentation: https://nodejs.org/dist/latest-v14.x/docs/api/
+
 ### NPM - Node Package Manager
 
     command line tool
