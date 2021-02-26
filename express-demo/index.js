@@ -3,9 +3,9 @@ const app = express(); //represents our application
 
 app.use(express.json()); //json => middleware ? 
 const courses = [
-    { id: 1, name: 'courses1' },
-    { id: 2, name: 'courses2' },
-    { id: 3, name: 'courses3' },
+    { id: 1, name: 'course1' },
+    { id: 2, name: 'course2' },
+    { id: 3, name: 'course3' },
 ];
 
 // app has following methods:
@@ -51,6 +51,12 @@ app.get('/api/posts/:year/:month', (req, res) => {
 })
 
 app.post('/api/courses', (req, res) => {
+    if (!req.body.name || req.body.name.length < 3) {
+        // 400 Bad Request
+        res.status(400).send('Name is required and should be min 3 characters')
+        return;
+    }
+
     const course = {
         id: courses.length + 1,
         name: req.body.name
@@ -58,8 +64,6 @@ app.post('/api/courses', (req, res) => {
     courses.push(course);
     res.send(course);
 });
-
-
 
 
 //environment variable: 
