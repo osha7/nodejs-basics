@@ -1,12 +1,12 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router(); //no longer have app object when separating out our routes
 
 const musicians = [
-  { id: 1, name: 'Phoebe Bridgers' },
-  { id: 2, name: 'Wolf Alice' },
-  { id: 3, name: 'Cherry Glazerr' },
-  { id: 4, name: 'L.A. Witch'},
-  { id: 5, name: 'Death Valley Girls' },
+    { id: 1, name: 'Phoebe Bridgers' },
+    { id: 2, name: 'Wolf Alice' },
+    { id: 3, name: 'Cherry Glazerr' },
+    { id: 4, name: 'L.A. Witch'},
+    { id: 5, name: 'Death Valley Girls' },
 ];
 
 router.get('/', (req, res) => {
